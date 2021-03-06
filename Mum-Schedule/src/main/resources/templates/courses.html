@@ -1,0 +1,50 @@
+
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="ISO-8859-1">
+    <link href="/courses.css" type="text/css" rel="stylesheet" />
+    <title>CourseList</title>
+</head>
+<body>
+
+<table id="tableProducts">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>courseCode</th>
+        <th>CourseName</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+
+<div >
+
+            <label >CourseName</label>
+            <input type="text" id="course_name" placeholder="courseName"/>
+            <label >CourseCode</label>
+            <input type="text" id="course_code" placeholder="courseCode"/>
+            <input id="btnadd" type="submit" value="Add"/>
+
+
+</div>
+
+
+<div>
+    <fieldset>
+            <input id="courseId" type="text" >
+            <input id="deletebtn" type="submit" value="delete"/>
+
+    </fieldset>
+</div>
+<div>
+    <form action="/signout.jsp">
+    <input id="sigoutbtn" type="submit" value="cancel"/>
+    </form>
+</div>
+<script src="/courses.js"></script>
+</body>
+</html>
