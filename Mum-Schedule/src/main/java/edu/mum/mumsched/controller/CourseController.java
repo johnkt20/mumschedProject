@@ -33,7 +33,7 @@ public ModelAndView getCourses(){
         mv.setViewName("courses");
 
         System.out.println("helloooo");
-        //model.addAttribute("newStudent",student);
+
         return mv;
 }
 
