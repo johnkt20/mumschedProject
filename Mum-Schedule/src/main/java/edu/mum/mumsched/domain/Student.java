@@ -13,7 +13,7 @@ public class Student {
     private Entry entry;
     @OneToMany
     private List<RegisterRecorde> registerRecordes=new ArrayList<>();
-
+// new student
 
 
 }
