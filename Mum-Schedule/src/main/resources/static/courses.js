@@ -31,8 +31,8 @@ function addCourse(e) {
 }
 
 function processData(data) {
-    //alert("courseAdding....");
-    let course={Id:data.Id,courseCode:data.courseCode,courseName:data.courseName};
+   // alert("courseAdding....");
+    let course={Id:data.id,courseCode:data.courseCode,courseName:data.courseName};
 
     let tr = document.createElement('tr');
     for (let key in course) {
@@ -55,13 +55,15 @@ function processData(data) {
 function delteCourse(e){
     console.log("deletebuttonclicked");
     let id=document.getElementById("courseId").value;
-    let courseId = {Id: id};
+
+    let courseid = {id:id,courseCode: null, courseName: null};
+
     fetch('deleteCourse', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(courseId),
+        body: JSON.stringify( courseid ),
     })
         .then(response => response.json())
         .then(data => processData2(data))
