@@ -40,7 +40,8 @@ public ModelAndView getCourses(){
        // add courses using Ajax
         System.out.println("courseAdding"+course);
         courseService.save(course);
-
+        ModelAndView mv= new ModelAndView();
+        mv.addObject("courses",courseService.getAllCourses());
         return courseService.getCourseByName(course.getCourseName());
 
     }
