@@ -7,6 +7,7 @@
 </head>
 <body>
 
+
 <table id="tableProducts">
     <thead>
     <tr>
@@ -45,6 +46,42 @@
     <input id="sigoutbtn" type="submit" value="cancel"/>
     </form>
 </div>
+
+<!--- opop test-->
+<button id="openfrm" class="open-button" >CreateCourse</button>
+
+<div class="form-popup" id="myForm">
+
+    <h1>Cart</h1>
+
+    <table id="newCourse">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+
+
+        </tbody>
+    </table>
+    <form action="/checkout.jsp" class="form-container" >
+
+        <button id="checkout_btn" type="submit" class="btn" >checkout</button>
+
+    </form>
+    <button id="cancel_btn"  class="btn cancel" >Close</button>
+</div>
+
+
+
+
+
+
+
+
 <script src="/courses.js"></script>
 </body>
 </html>
