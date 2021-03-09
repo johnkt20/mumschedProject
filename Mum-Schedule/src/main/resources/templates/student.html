@@ -1,0 +1,110 @@
+
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="ISO-8859-1">
+    <link href="/student.css" type="text/css" rel="stylesheet" />
+    <title>StudentList</title>
+</head>
+<body>
+
+
+<table id="student_table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>firstName</th>
+        <th>LastName</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="Student : ${students}">
+        <td th:text="${Student.id}"class="secnum1"></td>
+        <td th:text="${Student.firstName}"class="secnum2"></td>
+        <td th:text="${Student.lastName}"class="secnum3"></td>
+        <td><button class="editstudent_1" onclick="editForm()" >Edit</button></td>
+        <td><button id=${Course.id} class="deletestudent" onclick="delete_student_in_row(this)"> Delete</button></td>
+
+    </tr>
+    </tbody>
+</table>
+
+<hr>
+<div>
+    <form action="/getstudents">
+        <input id="backbtn" type="submit" value="Back"/>
+    </form>
+</div>
+
+<!--popup window-->
+
+<button class="open-button" onclick="openForm()">CreateStudent</button>
+
+<div class="form-popup" id="myForm">
+    <form action="/action_page.php" class="form-container">
+        <h1>Create Student</h1>
+
+        <label for="email"><b>first Name</b></label>
+        <input id="first_namee" type="text" placeholder="EnterfirstName" name="email" required>
+
+        <label for="psw"><b>last Name</b></label>
+        <input id="last_namee"  placeholder="Enter lastName" name="psw" required>
+
+        <button id="createstudent_btn" type="button" class="btn" >AddStudent</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    </form>
+</div>
+
+
+
+<!--pop edit window-->
+
+<div class="form-popupe" id="myForme">
+    <form action="/action_page.php" class="form-containere">
+        <h1>Create Course</h1>
+
+        <label for="email"><b>Course Name</b></label>
+        <input id="course_nameee" type="text" placeholder="EnterCourseNamee" name="emaile" required>
+
+        <label for="psw"><b>CourseCode</b></label>
+        <input id="course_codeee"  placeholder="Enter CourseCodeee" name="pswe" required>
+
+        <button id="createcourse_btne" type="buttone" class="btne" >AddCourse</button>
+        <button type="button" class="btn cancele" onclick="editFormcancel()">Close</button>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+<script>
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+        document.getElementById("first_namee").value="";
+        document.getElementById("last_namee").value="";
+    }
+
+    function editForm(){
+        document.getElementById("myForme").style.display="block";
+    }
+    function editFormcancel(){
+        document.getElementById("myForme").style.display="none";
+    }
+</script>
+
+
+<!-- hidden button-->
+<button class="deletestudent_1" onclick="delete_student_in_row(this)"> Delete</button>
+<button class="editstudent_1" onclick="editForm(this)"> edit</button>
+
+
+<script src="/student.js"></script>
+</body>
+</html>
