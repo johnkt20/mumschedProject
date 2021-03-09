@@ -107,7 +107,7 @@ function delteCourse(courseIdd){
     //let id=document.getElementById("courseId").value;
     let id=courseIdd;
     let courseid = {id:id,courseCode: null, courseName: null};
-
+//dfd
     fetch('deleteCourse', {
         method: 'POST',
         headers: {
