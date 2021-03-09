@@ -8,7 +8,7 @@
 <body>
 
 
-<table id="tableProducts">
+<table id="course_table">
     <thead>
     <tr>
         <th>Id</th>
@@ -17,62 +17,60 @@
     </tr>
     </thead>
     <tbody>
+    <tr th:each="Course : ${courses}">
+        <td th:text="${Course.id}"class="secnum1"></td>
+        <td th:text="${Course.courseName}"class="secnum2"></td>
+        <td th:text="${Course.courseCode}"class="secnum3"></td>
+        <td><button class="editcourse_1" onclick="editForm()" >Edit</button></td>
+        <td><button id=${Course.id} class="deletecourse" onclick="delete_course_in_row(this)"> Delete</button></td>
 
+    </tr>
     </tbody>
 </table>
 
-
-<div >
-
-            <label >CourseName</label>
-            <input type="text" id="course_name" placeholder="courseName"/>
-            <label >CourseCode</label>
-            <input type="text" id="course_code" placeholder="courseCode"/>
-            <input id="btnadd" type="submit" value="Add"/>
-
-
-</div>
-
-
+<hr>
 <div>
-    <fieldset>
-            <input id="courseId" type="text" >
-            <input id="deletebtn" type="submit" value="delete"/>
-
-    </fieldset>
-</div>
-<div>
-    <form action="/signout.jsp">
-    <input id="sigoutbtn" type="submit" value="cancel"/>
+    <form action="/getcourses">
+    <input id="backbtn" type="submit" value="Back"/>
     </form>
 </div>
 
-<!--- opop test-->
-<button id="openfrm" class="open-button" >CreateCourse</button>
+<!--popup window-->
+
+<button class="open-button" onclick="openForm()">CreateCourse</button>
 
 <div class="form-popup" id="myForm">
+    <form action="/action_page.php" class="form-container">
+        <h1>Create Course</h1>
 
-    <h1>Cart</h1>
+        <label for="email"><b>Course Name</b></label>
+        <input id="course_namee" type="text" placeholder="EnterCourseName" name="email" required>
 
-    <table id="newCourse">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Price</th>
-        </tr>
-        </thead>
-        <tbody>
+        <label for="psw"><b>CourseCode</b></label>
+        <input id="course_codee"  placeholder="Enter CourseCode" name="psw" required>
 
-
-        </tbody>
-    </table>
-    <form action="/checkout.jsp" class="form-container" >
-
-        <button id="checkout_btn" type="submit" class="btn" >checkout</button>
-
+        <button id="createcourse_btn" type="button" class="btn" >AddCourse</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
     </form>
-    <button id="cancel_btn"  class="btn cancel" >Close</button>
+</div>
+
+
+
+<!--pop edit window-->
+
+<div class="form-popupe" id="myForme">
+    <form action="/action_page.php" class="form-containere">
+        <h1>Create Course</h1>
+
+        <label for="email"><b>Course Name</b></label>
+        <input id="course_nameee" type="text" placeholder="EnterCourseNamee" name="emaile" required>
+
+        <label for="psw"><b>CourseCode</b></label>
+        <input id="course_codeee"  placeholder="Enter CourseCodeee" name="pswe" required>
+
+        <button id="createcourse_btne" type="buttone" class="btne" >AddCourse</button>
+        <button type="button" class="btn cancele" onclick="editFormcancel()">Close</button>
+    </form>
 </div>
 
 
@@ -80,6 +78,31 @@
 
 
 
+
+
+<script>
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+        document.getElementById("course_namee").value="";
+        document.getElementById("course_codee").value="";
+    }
+
+   function editForm(){
+        document.getElementById("myForme").style.display="block";
+   }
+   function editFormcancel(){
+        document.getElementById("myForme").style.display="none";
+   }
+</script>
+
+
+<!-- hidden button-->
+<button class="deletecourse_1" onclick="delete_course_in_row(this)"> Delete</button>
+<button class="editcourse_1" onclick="editForm(this)"> edit</button>
 
 
 <script src="/courses.js"></script>
