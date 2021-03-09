@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class AdminCountroller {
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/adminpanel", method = RequestMethod.GET)
     public ModelAndView showAdminPanel() {
 
         ModelAndView mv= new ModelAndView();

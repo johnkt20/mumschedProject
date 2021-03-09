@@ -14,13 +14,15 @@
         <th>Id</th>
         <th>courseCode</th>
         <th>CourseName</th>
+        <th></th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="Course : ${courses}">
         <td th:text="${Course.id}"class="secnum1"></td>
-        <td th:text="${Course.courseName}"class="secnum2"></td>
-        <td th:text="${Course.courseCode}"class="secnum3"></td>
+        <td th:text="${Course.courseCode}"class="secnum2"></td>
+        <td th:text="${Course.courseName}"class="secnum3"></td>
         <td><button class="editcourse" onclick="editForm(this)" >Edit</button></td>
         <td><button id=${Course.id} class="deletecourse" onclick="delete_course_in_row(this)"> Delete</button></td>
 
@@ -30,7 +32,7 @@
 
 <hr>
 <div>
-    <form action="/getcourses">
+    <form action="/adminpanel">
     <input id="backbtn" type="submit" value="Back"/>
     </form>
 </div>
@@ -71,7 +73,7 @@
         <label for="psw"><b>CourseCode</b></label>
         <input id="course_codeee"  placeholder="Enter CourseCodeee" name="pswe" required><br/>
 
-        <button id="createcourse_btne" type="buttone" class="btne" >update</button>
+        <button id="update_course_btn" type="button" class="btne" onclick="updateCourse(this)"> update</button>
         <button type="button" class="btn cancele" onclick="editFormcancel()">Close</button>
     </form>
 </div>
@@ -84,6 +86,8 @@
 
 
 <script>
+
+    var row_index;
     function openForm() {
         document.getElementById("myForm").style.display = "block";
     }
@@ -96,6 +100,7 @@
 
    function editForm(e){
        alert("edit button workingg..");
+       row_index=e.parentNode.parentNode.rowIndex;
         document.getElementById("myForme").style.display="block";
         var course_index=e.parentNode.parentNode.rowIndex;
         let course_id=document.getElementById("course_table").rows[course_index].cells[0].innerHTML;
@@ -109,6 +114,42 @@
    function editFormcancel(){
         document.getElementById("myForme").style.display="none";
    }
+
+   function updateCourse(e){
+       let course_id=document.getElementById("course_id").value;
+       let course_code= document.getElementById("course_codeee").value;
+       let course_name= document.getElementById("course_nameee").value;
+
+       alert("index"+row_index);
+       document.getElementById("course_table").rows[row_index].cells[1].innerHTML=course_code;
+       document.getElementById("course_table").rows[row_index].cells[2].innerHTML=course_name;
+
+
+       let course_obj= {id:course_id,courseCode:course_code,courseName:course_name}
+       alert("updatecourse"+course_obj);
+       fetch('updatecourse', {
+           method: 'POST',
+           headers: {
+               'Content-Type': 'application/json',
+           },
+           body: JSON.stringify( course_obj ),
+       })
+           .then(response => response.json())
+           .then(data => courseupdating(data))
+           .catch((error) => {
+               console.error('Error:', error);
+           });
+
+   }
+
+    function courseupdating(data){
+
+        alert("course updated successfully");
+
+    }
+
+
+
 </script>
 
 

@@ -58,14 +58,19 @@ public ModelAndView getCourses(){
     }
 
 
-    @RequestMapping(value= {"/updateCourse"}, method= RequestMethod.POST)
+    @RequestMapping(value= {"/updatecourse"}, method= RequestMethod.POST)
     public @ResponseBody Course updateCourse(@RequestBody Course course)
             throws ServletException, IOException {
 
         //update course using Ajax
-        System.out.println(course);
-        courseService.deleteCourseById(course.getId());
-        return course;
+        System.out.println("courseupdating"+course);
+       Course old_course= courseService.getCourseByID(course.getId());
+       old_course.setCourseCode(course.getCourseCode());
+       old_course.setCourseName(course.getCourseName());
+       Course updated_course=old_course;
+       courseService.save(updated_course);
+       System.out.println("coursefrom database"+ courseService.getCourseByID(course.getId()));
+        return updated_course;
 
     }
 
