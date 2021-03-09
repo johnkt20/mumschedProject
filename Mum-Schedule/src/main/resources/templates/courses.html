@@ -21,7 +21,7 @@
         <td th:text="${Course.id}"class="secnum1"></td>
         <td th:text="${Course.courseName}"class="secnum2"></td>
         <td th:text="${Course.courseCode}"class="secnum3"></td>
-        <td><button class="editcourse_1" onclick="editForm()" >Edit</button></td>
+        <td><button class="editcourse" onclick="editForm(this)" >Edit</button></td>
         <td><button id=${Course.id} class="deletecourse" onclick="delete_course_in_row(this)"> Delete</button></td>
 
     </tr>
@@ -60,15 +60,18 @@
 
 <div class="form-popupe" id="myForme">
     <form action="/action_page.php" class="form-containere">
-        <h1>Create Course</h1>
+        <h1>Update Course</h1>
+
+        <label for="email"><b>course id</b></label>
+        <input id="course_id" type="text" placeholder="course id" name="emaile" required readonly> <br/>
 
         <label for="email"><b>Course Name</b></label>
-        <input id="course_nameee" type="text" placeholder="EnterCourseNamee" name="emaile" required>
+        <input id="course_nameee" type="text" placeholder="EnterCourseNamee" name="emaile" required> <br/>
 
         <label for="psw"><b>CourseCode</b></label>
-        <input id="course_codeee"  placeholder="Enter CourseCodeee" name="pswe" required>
+        <input id="course_codeee"  placeholder="Enter CourseCodeee" name="pswe" required><br/>
 
-        <button id="createcourse_btne" type="buttone" class="btne" >AddCourse</button>
+        <button id="createcourse_btne" type="buttone" class="btne" >update</button>
         <button type="button" class="btn cancele" onclick="editFormcancel()">Close</button>
     </form>
 </div>
@@ -91,8 +94,17 @@
         document.getElementById("course_codee").value="";
     }
 
-   function editForm(){
+   function editForm(e){
+       alert("edit button workingg..");
         document.getElementById("myForme").style.display="block";
+        var course_index=e.parentNode.parentNode.rowIndex;
+        let course_id=document.getElementById("course_table").rows[course_index].cells[0].innerHTML;
+        let course_code=document.getElementById("course_table").rows[course_index].cells[1].innerHTML;
+        let course_name=document.getElementById("course_table").rows[course_index].cells[2].innerHTML;
+         document.getElementById("course_id").value=course_id;
+         document.getElementById("course_nameee").value=course_name;
+         document.getElementById("course_codeee").value=course_code;
+
    }
    function editFormcancel(){
         document.getElementById("myForme").style.display="none";
@@ -101,7 +113,7 @@
 
 
 <!-- hidden button-->
-<button class="deletecourse_1" onclick="delete_course_in_row(this)"> Delete</button>
+<button id="delete_course2" class="deletecourse_1" onclick="delete_course_in_row(this)" > Delete</button>
 <button class="editcourse_1" onclick="editForm(this)"> edit</button>
 
 

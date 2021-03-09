@@ -22,7 +22,7 @@ th {
 
 
 /* The popup form - hidden by default */
-body {font-family: Arial, Helvetica, sans-serif;}
+body {font-family: Arial, Helvetica, sans-serif; font-size: 11pt}
 * {box-sizing: border-box;}
 
 /* Button used to open the contact form - fixed at the bottom of the page */
@@ -101,10 +101,10 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
     <!--edit hiden window-->
             /* The popup form - hidden by default */
-        body {font-family: Arial, Helvetica, sans-serif;}
+        body {font-family: Arial, Helvetica, sans-serif;font-size: 11pt}
 * {box-sizing: border-box;}
 
-/* Button used to open the contact form - fixed at the bottom of the page */
+/* Button used to open the contact form - fixed at the bottom of the page
 .open-buttone {
     background-color: #555;
     color: white;
@@ -117,7 +117,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     right: 28px;
     width: 280px;
 }
-
+*/
 /* The popup form - hidden by default */
 .form-popupe {
     display: none;
@@ -128,14 +128,14 @@ body {font-family: Arial, Helvetica, sans-serif;}
     z-index: 9;
 }
 
-/* Add styles to the form container */
+/* Add styles to the form container
 .form-containere {
     max-width: 300px;
     padding: 10px;
     background-color: white;
 }
-
-/* Full-width input fields */
+*/
+/* Full-width input fields
 .form-containere input[type=text], .form-containere #course_codeee {
     width: 100%;
     padding: 15px;
@@ -143,14 +143,15 @@ body {font-family: Arial, Helvetica, sans-serif;}
     border: none;
     background: #f1f1f1;
 }
+*/
 
-/* When the inputs get focus, do something */
+/* When the inputs get focus, do something
 .form-containere input[type=text]:focus, .form-containere input[type=password]:focus {
     background-color: #ddd;
     outline: none;
 }
-
-/* Set a style for the submit/login button */
+ */
+/* Set a style for the submit/login button
 .form-containere .btne {
     background-color: #4CAF50;
     color: white;
@@ -161,22 +162,20 @@ body {font-family: Arial, Helvetica, sans-serif;}
     margin-bottom:10px;
     opacity: 0.8;
 }
-
-/* Add a red background color to the cancel button */
+ */
+/* Add a red background color to the cancel button
 .form-containere .cancel {
     background-color: red;
 }
-
-/* Add some hover effects to buttons */
+*/
+/* Add some hover effects to buttons
 .form-containere .btne:hover, .open-button:hover {
     opacity: 1;
 }
-
+*/
 <!--hidden buttons-->
+#delete_course2.deletecourse_1{
+    display: none;
 
-    .deletecourse_1{
-        visibility: hidden;
     }
-   .editcourse_1{
-       visibility: hidden;
-   }
+

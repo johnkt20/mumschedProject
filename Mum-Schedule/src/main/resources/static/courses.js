@@ -43,12 +43,16 @@ function addingcourse(data) {
 
     let tr = document.createElement('tr');
     tr.id="row"+data.id;
-    let btn1 = document.getElementsByClassName("deletecourse_1").item(0);
+    let btn1 = document.getElementsByClassName("editcourse_1").item(0);
     let btn11=btn1.cloneNode(true);
        btn11.textContent="Edit";
+       btn11.visibility="visible";
+       btn11.id=data.id;
 
     let btn2 = document.getElementsByClassName("deletecourse_1").item(0);
     let bt22=btn2.cloneNode(true);
+       bt22.style.visibility="visible"
+       bt22.id=data.id+1;
     //btn2.id=""+data.id;
    // btn2.innerHTML = "Delete";
    // btn2.className = "deletecourse";

@@ -58,6 +58,16 @@ public ModelAndView getCourses(){
     }
 
 
+    @RequestMapping(value= {"/updateCourse"}, method= RequestMethod.POST)
+    public @ResponseBody Course updateCourse(@RequestBody Course course)
+            throws ServletException, IOException {
+
+        //update course using Ajax
+        System.out.println(course);
+        courseService.deleteCourseById(course.getId());
+        return course;
+
+    }
 
 
 }
