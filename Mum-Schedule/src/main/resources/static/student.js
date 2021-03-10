@@ -43,19 +43,23 @@ function addingstudent(data) {
 
     let tr = document.createElement('tr');
     tr.id="row"+data.id;
-    let btn1 = document.getElementsByClassName("deletestudent_1").item(0);
+    let btn1 = document.getElementsByClassName("clone_btn").item(0);
     let btn11=btn1.cloneNode(true);
-    btn11.textContent="Edit";
+    btn11.id=data.id;
+    btn11.value="Edit";
+    btn11.className="editstudent_111";
+    btn11.addEventListener("click",function(event){editStudent(this)});
 
-    let btn2 = document.getElementsByClassName("deletestudent_1").item(0);
+    let btn2 = document.getElementsByClassName("clone_btn").item(0);
     let bt22=btn2.cloneNode(true);
-    //btn2.id=""+data.id;
-    // btn2.innerHTML = "Delete";
-    // btn2.className = "deletecourse";
+    bt22.value="Delete";
+    bt22.id=data.id+1;
+    bt22.className="deletestudent";
+    bt22.addEventListener("click",function(event){delete_student_in_row(this)});
 
 
 
-    let td1 = document.createElement('td');
+    let td11 = document.createElement('td');
     let td2 = document.createElement('td');
     for (let key in student) {
 
@@ -68,9 +72,9 @@ function addingstudent(data) {
 
 
     }
-    td1.appendChild(btn11);
+    td11.appendChild(btn11);
     td2.appendChild(bt22);
-    tr.append(td1);
+    tr.append(td11);
     tr.append(td2);
     document.querySelector("#student_table").append(tr);
 

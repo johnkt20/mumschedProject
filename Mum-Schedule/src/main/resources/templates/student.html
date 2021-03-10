@@ -14,14 +14,16 @@
         <th>Id</th>
         <th>firstName</th>
         <th>LastName</th>
+        <th></th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="Student : ${students}">
-        <td th:text="${Student.id}"class="secnum1"></td>
-        <td th:text="${Student.firstName}"class="secnum2"></td>
-        <td th:text="${Student.lastName}"class="secnum3"></td>
-        <td><button class="editstudent_1" onclick="editForm()" >Edit</button></td>
+        <td th:text="${Student.id}"class="secnum11"></td>
+        <td th:text="${Student.firstName}"class="secnum22"></td>
+        <td th:text="${Student.lastName}"class="secnum33"></td>
+        <td><button class="editstudent_111" onclick="editStudent(this)" >Edit</button></td>
         <td><button id=${Course.id} class="deletestudent" onclick="delete_student_in_row(this)"> Delete</button></td>
 
     </tr>
@@ -31,7 +33,7 @@
 <hr>
 <div>
     <form action="/adminpanel">
-        <input id="backbtn" type="submit" value="Back"/>
+        <input class="clone_btn" type="submit" value="Back"/>
     </form>
 </div>
 
@@ -60,15 +62,18 @@
 
 <div class="form-popupe" id="myForme">
     <form action="/action_page.php" class="form-containere">
-        <h1>Create Course</h1>
+
+
+        <label for="email"><b>course id</b></label>
+        <input id="student_ide" type="text" placeholder="course id" name="emaile" required readonly> <br/>
 
         <label for="email"><b>Course Name</b></label>
-        <input id="course_nameee" type="text" placeholder="EnterCourseNamee" name="emaile" required>
+        <input id="first_nameee" type="text" placeholder="EnterCourseNamee" name="emaile" required>
 
         <label for="psw"><b>CourseCode</b></label>
-        <input id="course_codeee"  placeholder="Enter CourseCodeee" name="pswe" required>
+        <input id="last_nameee"  placeholder="Enter CourseCodeee" name="pswe" required>
 
-        <button id="createcourse_btne" type="buttone" class="btne" >AddCourse</button>
+        <button id="update_Student_btn" type="buttone" class="btne" onclick="updateStudent(this)">update</button>
         <button type="button" class="btn cancele" onclick="editFormcancel()">Close</button>
     </form>
 </div>
@@ -81,6 +86,8 @@
 
 
 <script>
+
+    var row_index;
     function openForm() {
         document.getElementById("myForm").style.display = "block";
     }
@@ -91,18 +98,68 @@
         document.getElementById("last_namee").value="";
     }
 
-    function editForm(){
-        document.getElementById("myForme").style.display="block";
+    function editStudent(e){
+
+            alert("edit button workingg..");
+            row_index=e.parentNode.parentNode.rowIndex;
+            document.getElementById("myForme").style.display="block";
+            var student_index=e.parentNode.parentNode.rowIndex;
+            let student_id=document.getElementById("course_table").rows[student_index].cells[0].innerHTML;
+            let first_name=document.getElementById("course_table").rows[student_index].cells[1].innerHTML;
+            let last_name=document.getElementById("course_table").rows[student_index].cells[2].innerHTML;
+            document.getElementById("student_ide").value=student_id;
+            document.getElementById("first_nameee").value=first_name;
+            document.getElementById("last_nameee").value=last_name;
+
+
     }
     function editFormcancel(){
         document.getElementById("myForme").style.display="none";
     }
+
+    function updateStudent(e){
+        let student_id=document.getElementById("student_id").value;
+        let student_firstName= document.getElementById("first_nameee").value;
+        let student_lastName= document.getElementById("last_nameee").value;
+
+        alert("index"+row_index);
+        document.getElementById("course_table").rows[row_index].cells[1].innerHTML=student_firstName;
+        document.getElementById("course_table").rows[row_index].cells[2].innerHTML=student_lastName;
+
+
+        let student_obj= {id:student_id,firstName:student_firstName,lastName:student_lastName}
+        alert("updatestudent"+student_obj);
+        fetch('updatestudent', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify( student_obj ),
+        })
+            .then(response => response.json())
+            .then(data => studentupdating(data))
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+    }
+
+    function studentupdating(data){
+
+        alert("course updated successfully");
+
+    }
+
+
+
+
+
+
+
 </script>
 
 
-<!-- hidden button-->
-<button class="deletestudent_1" onclick="delete_student_in_row(this)"> Delete</button>
-<button class="editstudent_1" onclick="editForm(this)"> edit</button>
+
 
 
 <script src="/student.js"></script>

@@ -1,5 +1,6 @@
 package edu.mum.mumsched.controller;
 
+import edu.mum.mumsched.domain.Course;
 import edu.mum.mumsched.domain.Student;
 import edu.mum.mumsched.domain.Student;
 import edu.mum.mumsched.service.CourseService;
@@ -53,6 +54,21 @@ public class StudentController {
 
     }
 
+    @RequestMapping(value= {"/updatestudent"}, method= RequestMethod.POST)
+    public @ResponseBody
+    Student updateStudent(@RequestBody Student student)
+            throws ServletException, IOException {
 
+        //update course using Ajax
+        System.out.println("courseupdating"+student);
+        Student update_student= studentService.getStudentById(student.getId());
+        update_student.setFirstName(student.getFirstName());
+        update_student.setLastName(student.getLastName());
+
+        studentService.save(update_student);
+        System.out.println("coursefrom database"+ studentService.getStudentById(update_student.getId()));
+        return student;
+
+    }
 
 }

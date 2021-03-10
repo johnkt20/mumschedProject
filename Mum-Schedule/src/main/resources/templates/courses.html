@@ -6,14 +6,20 @@
     <title>CourseList</title>
 </head>
 <body>
-
-
+<div>
+<h2>Course Managment System</h2>
+</div>
 <table id="course_table">
     <thead>
     <tr>
         <th>Id</th>
         <th>courseCode</th>
         <th>CourseName</th>
+        <th>Course Level</th>
+        <th>Credit</th>
+        <th> Max Students</th>
+        <th>prerequesit</th>
+        <th></th>
         <th></th>
         <th></th>
     </tr>
@@ -23,6 +29,10 @@
         <td th:text="${Course.id}"class="secnum1"></td>
         <td th:text="${Course.courseCode}"class="secnum2"></td>
         <td th:text="${Course.courseName}"class="secnum3"></td>
+        <td th:text="${Course.level}" class="secnum4"></td>
+        <td th:text="${Course.credit}" class="secnum4"></td>
+        <td th:text="${Course.maxStudent}" class="secnum5"></td>
+        <td th:text="${Course.prerequisites}" class="secnum6"></td>
         <td><button class="editcourse" onclick="editForm(this)" >Edit</button></td>
         <td><button id=${Course.id} class="deletecourse" onclick="delete_course_in_row(this)"> Delete</button></td>
 
@@ -33,7 +43,7 @@
 <hr>
 <div>
     <form action="/adminpanel">
-    <input id="backbtn" type="submit" value="Back"/>
+    <input id="backbtn" class="clone_button" type="submit" value="Back"/>
     </form>
 </div>
 
@@ -43,15 +53,29 @@
 
 <div class="form-popup" id="myForm">
     <form action="/action_page.php" class="form-container">
-        <h1>Create Course</h1>
+
 
         <label for="email"><b>Course Name</b></label>
-        <input id="course_namee" type="text" placeholder="EnterCourseName" name="email" required>
+        <input id="course_namee" class="couresdata" type="text" placeholder="EnterCourseName" name="email" required> <br/>
 
         <label for="psw"><b>CourseCode</b></label>
-        <input id="course_codee"  placeholder="Enter CourseCode" name="psw" required>
+        <input id="course_codee" class="couresdata" placeholder="Enter CourseCode" name="psw" required><br/>
 
-        <button id="createcourse_btn" type="button" class="btn" >AddCourse</button>
+        <label for="psw"><b>Course Level</b></label>
+        <input id="course_level" class="couresdata" placeholder="Enter Course Level" name="psw" required><br/>
+
+        <label for="psw"><b>Course Credit</b></label>
+        <input id="course_credit" class="couresdata" placeholder="Enter Course credit" name="psw" required><br/>
+
+        <label for="psw"><b>Max students</b></label>
+        <input id="course_max_students"  class="couresdata" placeholder="max number of students" name="psw" required><br/>
+
+        <label for="psw"><b>Course prerequisite</b></label>
+        <select  class="couresdata" id="course_prereq" th:each="Course : ${courses}"><br/>
+            <option th:text="${Course.courseName}"class="preq"></option>
+        </select>
+
+        <button id="createcourse_btn" type="button" class="btn" >create</button>
         <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
     </form>
 </div>
@@ -62,7 +86,6 @@
 
 <div class="form-popupe" id="myForme">
     <form action="/action_page.php" class="form-containere">
-        <h1>Update Course</h1>
 
         <label for="email"><b>course id</b></label>
         <input id="course_id" type="text" placeholder="course id" name="emaile" required readonly> <br/>
@@ -154,8 +177,6 @@
 
 
 <!-- hidden button-->
-<button id="delete_course2" class="deletecourse_1" onclick="delete_course_in_row(this)" > Delete</button>
-<button class="editcourse_1" onclick="editForm(this)"> edit</button>
 
 
 <script src="/courses.js"></script>

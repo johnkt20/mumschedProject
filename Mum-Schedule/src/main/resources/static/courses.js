@@ -16,9 +16,20 @@ function addCourse(e) {
 //
     let courseCode = document.getElementById('course_codee').value;
     let courseName = document.getElementById('course_namee').value;
+    let courseLevel=document.getElementById("course_level").value;
+    let courseCredit=document.getElementById("course_credit").value;
+    let maxStudents=document.getElementById("course_max_students").value;
+    var course=  {courseCode: courseCode, courseName: courseName,level:courseLevel,credit:courseCredit, maxStudent:maxStudents};
+    //if(document.getElementById("course_prerequisites").value===null)
 
 
-    let course = {courseCode: courseCode, courseName: courseName};
+
+
+
+   // let prereq=document.getElementById("course_prerequisites").value;
+
+
+
     alert("course:"+course);
     fetch('addcourse', {
         method: 'POST',
@@ -39,20 +50,30 @@ function addCourse(e) {
 
 function addingcourse(data) {
     alert("courseAddinggg...."+data.id+""+data.courseName);
-    let course = {Id: data.id, courseCode: data.courseCode, courseName: data.courseName};
+
+    if(data.prerequisites==null){
+        data.prerequisites="null";
+    }
+
+    let course = {Id: data.id, courseCode: data.courseCode, courseName: data.courseName,level:data.level,credit:data.credit,maxStudent:data.maxStudent,prerequisites:data.prerequisites};
 
     let tr = document.createElement('tr');
     tr.id="row"+data.id;
-    let btn1 = document.getElementsByClassName("editcourse_1").item(0);
+    let btn1 = document.getElementsByClassName("clone_button").item(0);
     let btn11=btn1.cloneNode(true);
-       btn11.textContent="Edit";
-       btn11.visibility="visible";
-       btn11.id=data.id;
 
-    let btn2 = document.getElementsByClassName("deletecourse_1").item(0);
+        btn11.id=data.id;
+        btn11.value="Edit";
+        btn11.className="editcourse";
+        btn11.addEventListener("click",function(event){editForm(this)});
+
+    let btn2 = document.getElementsByClassName("clone_button").item(0);
     let bt22=btn2.cloneNode(true);
-       bt22.style.visibility="visible"
+       //bt22.style.visibility="visible"
        bt22.id=data.id+1;
+       bt22.className="deletecourse";
+       bt22.addEventListener("click",function(event){delete_course_in_row(this)});
+       bt22.value="Delete";
     //btn2.id=""+data.id;
    // btn2.innerHTML = "Delete";
    // btn2.className = "deletecourse";

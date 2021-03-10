@@ -93,11 +93,9 @@ body {font-family: Arial, Helvetica, sans-serif;}
     opacity: 1;
 }
 
-<!--hidden button>
 
-    #deletestudent_1{
-        display: none;
-    }
+
+
 
 <!--edit hiden window-->
         /* The popup form - hidden by default */
@@ -172,11 +170,4 @@ body {font-family: Arial, Helvetica, sans-serif;}
     opacity: 1;
 }
 
-<!--hidden buttons-->
 
-    .deletestudent_1{
-        visibility: hidden;
-    }
-.editstudent_1{
-    visibility: hidden;
-}
