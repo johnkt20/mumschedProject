@@ -75,6 +75,7 @@ public ModelAndView getCourses(){
        Course old_course= courseService.getCourseByID(course.getId());
        old_course.setCourseCode(course.getCourseCode());
        old_course.setCourseName(course.getCourseName());
+       old_course.setPrerequisites(course.getPrerequisites());
        Course updated_course=old_course;
        courseService.save(updated_course);
        System.out.println("coursefrom database"+ courseService.getCourseByID(course.getId()));

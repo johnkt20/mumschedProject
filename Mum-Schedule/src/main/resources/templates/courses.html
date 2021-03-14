@@ -33,7 +33,7 @@
         <td th:text="${Course.credit}" class="secnum4"></td>
         <td th:text="${Course.maxStudent}" class="secnum5"></td>
         <p  th:if="${Course.prerequisites.size!=0}">
-        <td  th:text="${Course.courseName}" class="secnum6"></td>
+        <td  th:text="${Course.prerequisites.get(0).courseName}" class="secnum6"></td>
         </p>
         <p  th:if="${Course.prerequisites.size==0}">
         <td >-</td>
@@ -102,6 +102,11 @@
 
         <label for="psw"><b>CourseCode</b></label>
         <input id="course_codeee"  placeholder="Enter CourseCodeee" name="pswe" required><br/>
+        <select  class="couresdata"  id="course_prereq_update" >
+            <option value="0">select prerequiste</option>
+            <option th:each="Course : ${courses}" th:value="${Course.courseName}" th:text="${Course.courseName}" ></option>
+
+        </select><br/>
 
         <button id="update_course_btn" type="button" class="btne" onclick="updateCourse(this)"> update</button>
         <button type="button" class="btn cancele" onclick="editFormcancel()">Close</button>
@@ -146,16 +151,44 @@
    }
 
    function updateCourse(e){
+        let preq_course_index;
+        let preq_course_obj;
+       let preq_course_arry;
+
        let course_id=document.getElementById("course_id").value;
        let course_code= document.getElementById("course_codeee").value;
        let course_name= document.getElementById("course_nameee").value;
+       let preq_getcourse_name=document.getElementById("course_prereq_update").value;
 
-       alert("index"+row_index);
+       if(preq_getcourse_name!=0) {
+           let search_table = document.getElementById("course_table");
+           for (let i = 0; i < search_table.rows.length; i++) {
+               if (search_table.rows[i].cells[2].innerHTML == preq_getcourse_name) {
+                   preq_course_index = i;
+               }
+           }
+           let preq_course_id=search_table.rows[ preq_course_index].cells[0].innerHTML;
+           let preq_course_code = search_table.rows[ preq_course_index].cells[1].innerHTML;
+           let preq_course_name=search_table.rows[ preq_course_index].cells[2].innerHTML;
+           let preq_course_level=search_table.rows[ preq_course_index].cells[3].innerHTML;
+           let preq_course_credit=search_table.rows[ preq_course_index].cells[4].innerHTML;
+           let preq_course_maxStudents=search_table.rows[ preq_course_index].cells[5].innerHTML;
+           preq_course_obj={id:preq_course_id,courseCode:preq_course_code,courseName:preq_course_name,level:preq_course_level,
+               credit:preq_course_credit,maxStudents:preq_course_maxStudents}
+
+       }
+       else{
+           preq_course_obj=null;
+           preq_getcourse_name="-";
+       }
+       preq_course_arry=[preq_course_obj];
        document.getElementById("course_table").rows[row_index].cells[1].innerHTML=course_code;
        document.getElementById("course_table").rows[row_index].cells[2].innerHTML=course_name;
+       document.getElementById("course_table").rows[row_index].cells[6].innerHTML= preq_getcourse_name;
 
 
-       let course_obj= {id:course_id,courseCode:course_code,courseName:course_name}
+
+       let course_obj= {id:course_id,courseCode:course_code,courseName:course_name,prerequisites:preq_course_arry}
        alert("updatecourse"+course_obj);
        fetch('updatecourse', {
            method: 'POST',

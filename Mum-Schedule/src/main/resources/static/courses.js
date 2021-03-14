@@ -14,6 +14,7 @@ window.onload = function () {
 
 function addCourse(e) {
 alert("corseAdding");
+
     let courseCode = document.getElementById('course_codee').value;
     let courseName = document.getElementById('course_namee').value;
     let courseLevel=document.getElementById("course_level").value;
@@ -44,7 +45,6 @@ alert("corseAdding");
         }
 
         alert("rowindex:"+row_index);
-            let preq_course_id=search_table.rows[row_index].cells[0].innerHTML;
             let preq_course_code = search_table.rows[row_index].cells[1].innerHTML;
             let preq_course_name=search_table.rows[row_index].cells[2].innerHTML;
             let preq_course_level=search_table.rows[row_index].cells[3].innerHTML;
@@ -53,12 +53,11 @@ alert("corseAdding");
             preq_course={courseCode:preq_course_code,courseName:preq_course_name,level:preq_course_level,
                 credit:preq_course_credit,maxStudents:preq_course_maxStudents}
 
-       alert("preq_course_id:");
-            alert("preq_course_name");
+
 
 
         let prereq_course_arry=[preq_course];
-        course=  {id:preq_course_id,courseCode: courseCode, courseName: courseName,level:courseLevel,credit:courseCredit,
+        course=  {courseCode: courseCode, courseName: courseName,level:courseLevel,credit:courseCredit,
             maxStudent:maxStudents,prerequisites:prereq_course_arry};
     }
 
