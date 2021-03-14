@@ -1,4 +1,5 @@
 window.onload = function () {
+
     //document.querySelector('form').addEventListener('submit', addProduct);
     let btnadd= document.getElementById("createstudent_btn");
     //let btndelet=document.getElementById(" deletebtn");

@@ -15,6 +15,7 @@ public class Course {
     private int credit;
     @Digits(integer=10, fraction=0, message = "{invalidNumber.message}")
     private int maxStudent;
+
     @ManyToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
     //@OneToMany(fetch = FetchType.LAZY)
     private List<Course> prerequisites = new ArrayList<>();

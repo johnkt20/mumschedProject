@@ -5,6 +5,8 @@ import edu.mum.mumsched.domain.Course;
 import edu.mum.mumsched.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,13 +37,19 @@ public ModelAndView getCourses(){
 
 
     @RequestMapping(value= {"/addcourse"},method= RequestMethod.POST)
-   public @ResponseBody Course addCourse(@RequestBody Course course)
+   public @ResponseBody Course addCourse(@RequestBody Course course, Model model)
             throws ServletException, IOException {
        // add courses using Ajax
-        System.out.println("courseAdding"+course);
+        System.out.println("check addingcourse");
+        System.out.println("Added Course"+course);
+        System.out.println("courseprerequesit"+course.getPrerequisites());
+
         courseService.save(course);
         ModelAndView mv= new ModelAndView();
         mv.addObject("courses",courseService.getAllCourses());
+
+
+       // preq.addObject("preq_courses",)
         return courseService.getCourseByName(course.getCourseName());
 
     }

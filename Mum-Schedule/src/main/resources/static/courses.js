@@ -13,20 +13,55 @@ window.onload = function () {
 }
 
 function addCourse(e) {
-//
+alert("corseAdding");
     let courseCode = document.getElementById('course_codee').value;
     let courseName = document.getElementById('course_namee').value;
     let courseLevel=document.getElementById("course_level").value;
     let courseCredit=document.getElementById("course_credit").value;
     let maxStudents=document.getElementById("course_max_students").value;
-    var course=  {courseCode: courseCode, courseName: courseName,level:courseLevel,credit:courseCredit, maxStudent:maxStudents};
-    //if(document.getElementById("course_prerequisites").value===null)
+    let prereq= document.getElementById("course_prereq").value;
+
+    let course;
+    let preq_course;
+    if(prereq==0){
+        alert("prereqnUll"+prereq);
+
+       course={courseCode: courseCode, courseName: courseName,level:courseLevel,credit:courseCredit,
+           maxStudent:maxStudents,prerequisites:null};
+    }
+    else{
 
 
+        alert("prereqnotnUll"+prereq);
+        let search_table = document.getElementById("course_table");
+        let preq_coursName=prereq;
+        let row_index;
+
+        for(let i=0;i<search_table.rows.length;i++){
+            if(search_table.rows[i].cells[2].innerHTML==preq_coursName){
+                row_index=i;
+            }
+        }
+
+        alert("rowindex:"+row_index);
+            let preq_course_id=search_table.rows[row_index].cells[0].innerHTML;
+            let preq_course_code = search_table.rows[row_index].cells[1].innerHTML;
+            let preq_course_name=search_table.rows[row_index].cells[2].innerHTML;
+            let preq_course_level=search_table.rows[row_index].cells[3].innerHTML;
+            let preq_course_credit=search_table.rows[row_index].cells[4].innerHTML;
+            let preq_course_maxStudents=search_table.rows[row_index].cells[5].innerHTML;
+            preq_course={courseCode:preq_course_code,courseName:preq_course_name,level:preq_course_level,
+                credit:preq_course_credit,maxStudents:preq_course_maxStudents}
+
+       alert("preq_course_id:");
+            alert("preq_course_name");
 
 
+        let prereq_course_arry=[preq_course];
+        course=  {id:preq_course_id,courseCode: courseCode, courseName: courseName,level:courseLevel,credit:courseCredit,
+            maxStudent:maxStudents,prerequisites:prereq_course_arry};
+    }
 
-   // let prereq=document.getElementById("course_prerequisites").value;
 
 
 
@@ -50,12 +85,15 @@ function addCourse(e) {
 
 function addingcourse(data) {
     alert("courseAddinggg...."+data.id+""+data.courseName);
-
+    let prereq;
     if(data.prerequisites==null){
-        data.prerequisites="null";
+        prereq="-";
+    }
+    else{
+        prereq=data.prerequisites[0].courseName;
     }
 
-    let course = {Id: data.id, courseCode: data.courseCode, courseName: data.courseName,level:data.level,credit:data.credit,maxStudent:data.maxStudent,prerequisites:data.prerequisites};
+    let course = {Id: data.id, courseCode: data.courseCode, courseName: data.courseName,level:data.level,credit:data.credit,maxStudent:data.maxStudent,prerequisites: prereq};
 
     let tr = document.createElement('tr');
     tr.id="row"+data.id;

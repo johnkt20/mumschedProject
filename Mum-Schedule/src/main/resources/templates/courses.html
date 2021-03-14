@@ -32,7 +32,12 @@
         <td th:text="${Course.level}" class="secnum4"></td>
         <td th:text="${Course.credit}" class="secnum4"></td>
         <td th:text="${Course.maxStudent}" class="secnum5"></td>
-        <td th:text="${Course.prerequisites}" class="secnum6"></td>
+        <p  th:if="${Course.prerequisites.size!=0}">
+        <td  th:text="${Course.courseName}" class="secnum6"></td>
+        </p>
+        <p  th:if="${Course.prerequisites.size==0}">
+        <td >-</td>
+        </p>
         <td><button class="editcourse" onclick="editForm(this)" >Edit</button></td>
         <td><button id=${Course.id} class="deletecourse" onclick="delete_course_in_row(this)"> Delete</button></td>
 
@@ -71,8 +76,10 @@
         <input id="course_max_students"  class="couresdata" placeholder="max number of students" name="psw" required><br/>
 
         <label for="psw"><b>Course prerequisite</b></label>
-        <select  class="couresdata" id="course_prereq" th:each="Course : ${courses}"><br/>
-            <option th:text="${Course.courseName}"class="preq"></option>
+        <select  class="couresdata"  id="course_prereq" ><br/>
+            <option value="0">select prerequiste</option>
+            <option th:each="Course : ${courses}" th:value="${Course.courseName}" th:text="${Course.courseName}" ></option>
+        </select>
         </select>
 
         <button id="createcourse_btn" type="button" class="btn" >create</button>

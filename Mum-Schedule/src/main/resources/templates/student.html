@@ -73,7 +73,7 @@
         <label for="psw"><b>CourseCode</b></label>
         <input id="last_nameee"  placeholder="Enter CourseCodeee" name="pswe" required>
 
-        <button id="update_Student_btn" type="buttone" class="btne" onclick="updateStudent(this)">update</button>
+        <button id="update_Student_btn" type="button" class="btne" onclick="updateStudent(this)">update</button>
         <button type="button" class="btn cancele" onclick="editFormcancel()">Close</button>
     </form>
 </div>
@@ -103,10 +103,10 @@
             alert("edit button workingg..");
             row_index=e.parentNode.parentNode.rowIndex;
             document.getElementById("myForme").style.display="block";
-            var student_index=e.parentNode.parentNode.rowIndex;
-            let student_id=document.getElementById("course_table").rows[student_index].cells[0].innerHTML;
-            let first_name=document.getElementById("course_table").rows[student_index].cells[1].innerHTML;
-            let last_name=document.getElementById("course_table").rows[student_index].cells[2].innerHTML;
+            let student_id=document.getElementById("student_table").rows[row_index].cells[0].innerHTML;
+            let first_name=document.getElementById("student_table").rows[row_index].cells[1].innerHTML;
+            let last_name=document.getElementById("student_table").rows[row_index].cells[2].innerHTML;
+            alert("id"+ student_id+"name"+first_name+"lastName"+last_name);
             document.getElementById("student_ide").value=student_id;
             document.getElementById("first_nameee").value=first_name;
             document.getElementById("last_nameee").value=last_name;
@@ -118,13 +118,13 @@
     }
 
     function updateStudent(e){
-        let student_id=document.getElementById("student_id").value;
+        let student_id=document.getElementById("student_ide").value;
         let student_firstName= document.getElementById("first_nameee").value;
         let student_lastName= document.getElementById("last_nameee").value;
 
         alert("index"+row_index);
-        document.getElementById("course_table").rows[row_index].cells[1].innerHTML=student_firstName;
-        document.getElementById("course_table").rows[row_index].cells[2].innerHTML=student_lastName;
+        document.getElementById("student_table").rows[row_index].cells[1].innerHTML=student_firstName;
+        document.getElementById("student_table").rows[row_index].cells[2].innerHTML=student_lastName;
 
 
         let student_obj= {id:student_id,firstName:student_firstName,lastName:student_lastName}
