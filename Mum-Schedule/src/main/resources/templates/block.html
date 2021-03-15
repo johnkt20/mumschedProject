@@ -1,0 +1,183 @@
+
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="ISO-8859-1">
+    <link href="/block.css" type="text/css" rel="stylesheet" />
+    <title>CourseList</title>
+</head>
+<body>
+<div>
+    <h2>Block Managment System</h2>
+</div>
+<table id="block_table">
+    <thead>
+    <tr>
+        <th>Entry Name</th>
+        <th>Block Name</th>
+        <th>Fpp Number</th>
+        <th>Mpp Number</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="Block : ${blocks}">
+        <td th:text="${Block.entryName}"></td>
+        <td th:text="${Block.blockName}"></td>
+        <td th:text="${Block.fppNumber}"></td>
+        <td th:text="${Block.mppNumber}"></td>
+        <td th:text="${Block.startDate}"></td>
+        <td th:text="${Block.endDate}"></td>
+        <td><button class="editblock" onclick="editForm(this)" >Edit</button></td>
+        <td><button id=${entry.id} class="deleteblock" onclick="delete_block_in_row(this)"> Delete</button></td>
+
+    </tr>
+    </tbody>
+</table>
+
+<hr>
+<div>
+    <form action="/adminpanel">
+        <input id="backbtn" class="clone_button" type="submit" value="Back"/>
+    </form>
+</div>
+
+<!--popup window-->
+
+<button class="open-button" onclick="openForm()">CreateBlock</button>
+
+<div class="form-popup" id="myForm">
+    <form action="/action_page.php" class="form-container">
+
+        <select  class="couresdata"  id="entry_name" >
+            <option value="0">select entry</option>
+            <option th:each="Entry : ${allentries}" th:value="${Entry.entryName}" th:text="${Entry.entryName}" ></option>
+
+        </select><br/>
+        <label for="psw"><b>Block Name</b></label>
+        <select  class="entrydata"  id="block_name" >
+            <option value="0">select block </option>
+            <option value="FEBRUARY" >FEBRUARY</option>
+            <option value="MAY"  >MAY</option>
+            <option value="AUGUST"  >AUGUST</option>
+            <option value="NOVEMBER"  >NOVEMBER</option>
+        </select><br/>
+
+        <label for="psw"><b>Fpp number</b></label>
+        <input id="fpp_number" class="entrydata" placeholder="Enter FPP" name="psw" required><br/>
+
+        <label for="psw"><b>Mpp number</b></label>
+        <input id="mpp_number" class="entrydata" placeholder="enter mpp" name="psw" required><br/>
+
+        <label for="psw"><b>Start date</b></label>
+        <input type="date" id="start_date" class="entrydata" placeholder="Enter start date" name="psw" required><br/>
+
+        <label for="psw"><b>End dates</b></label>
+        <input type="date" id="end_date"  class="entrydata" placeholder="Enter end date" name="psw" required><br/>
+
+
+        <button id="createblock_btn" type="button" class="btn" >create</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    </form>
+</div>
+
+
+
+<!--pop edit window-->
+
+<div class="form-popupe" id="myForme">
+    <form action="/action_page.php" class="form-containere">
+
+        <label for="email"><b>Fpp Number</b></label>
+        <input id="fpp_numbere" type="text" placeholder="EnterFppNamee" name="emaile" required> <br/>
+
+        <label for="psw"><b>Mpp number</b></label>
+        <input id="mpp_numbere"  placeholder="Enter mpp number" name="pswe" required><br/>
+
+        <button id="update_block_btn" type="button" class="btne" onclick="updateBlock(this)"> update</button>
+        <button type="button" class="btn cancele" onclick="editFormcancel()">Close</button>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+<script>
+
+    var row_index;
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+        document.getElementById("fpp_numbere").value="";
+        document.getElementById("mpp_numbere").value="";
+    }
+
+    function editForm(e){
+        alert("edit button workingg..");
+        row_index=e.parentNode.parentNode.rowIndex;
+        document.getElementById("myForme").style.display="block";
+        var entry_index=e.parentNode.parentNode.rowIndex;
+
+        let fpp_number=document.getElementById("block_table").rows[entry_index].cells[1].innerHTML;
+        let mpp_number=document.getElementById("block_table").rows[entry_index].cells[2].innerHTML;
+        document.getElementById("fpp_numbere").value=fpp_number;
+        document.getElementById("mpp_numbere").value=mpp_number;
+
+    }
+    function editFormcancel(){
+        document.getElementById("myForme").style.display="none";
+    }
+
+    function updateBlock(e){
+
+        let fpp_number= document.getElementById("fpp_numbere").value;
+        let mpp_number= document.getElementById("mpp_numbere").value;
+
+        document.getElementById("block_table").rows[row_index].cells[1].innerHTML=fpp_number;
+        document.getElementById("block_table").rows[row_index].cells[2].innerHTML=mpp_number;
+
+        let block_name=document.getElementById("block_table").rows[row_index].cells[0].innerHTML
+
+        let entry_obj= {blockName:block_name,fppNumber:fpp_number,mppNumber:mpp_number}
+        alert("blockname"+block_name+"fppNumber"+fpp_number+"mppnumber"+mpp_number);
+        fetch('updateblock', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify( entry_obj ),
+        })
+            .then(response => response.json())
+            .then(data => blockupdating(data))
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+    }
+
+    function blockupdating(data){
+
+        alert("entry updated successfully");
+
+    }
+
+
+
+</script>
+
+
+<!-- hidden button-->
+
+
+<script src="/block.js"></script>
+</body>
+</html>

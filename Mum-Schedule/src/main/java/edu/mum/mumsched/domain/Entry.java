@@ -1,15 +1,15 @@
 package edu.mum.mumsched.domain;
 
 
-
+import edu.mum.mumsched.domain.EntryType;
+import edu.mum.mumsched.domain.Student;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 //@Data
@@ -20,19 +20,19 @@ import java.util.List;
 @Entity
 public class Entry {
     @Id
-    @Column(name = "entryid")
+   @Column(name = "entryid")
     //@GeneratedValue(strategy= GenerationType.AUTO ,generator = "native")
     @GeneratedValue(strategy= GenerationType.IDENTITY)
 
     private Long id;
     @NonNull
     private String  entryName;
-    private int FPPNum;
-    private int MPPNum;
+    private String fppNumber;
+    private String mppNumber;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate StartDate;
+    private LocalDate startDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate EndDate;
+    private LocalDate endDate;
     private EntryType entryType;
     @OneToMany(cascade = CascadeType.ALL,mappedBy="entry")
     private List<Student> students = new ArrayList<>();
@@ -45,17 +45,25 @@ public class Entry {
     public Entry() {
     }
 
-    public Entry(Long id,  String entryName, int FPPNum, int MPPNum, LocalDate startDate, LocalDate endDate, EntryType entryType, List<Student> students, List<Block> blocks, Schedule schedule) {
+    public Entry(Long id, @NonNull String entryName, String fppNumber, String mppNumber, LocalDate startDate, LocalDate endDate, EntryType entryType, List<Student> students, List<Block> blocks, Schedule schedule) {
         this.id = id;
         this.entryName = entryName;
-        this.FPPNum = FPPNum;
-        this.MPPNum = MPPNum;
-        StartDate = startDate;
-        EndDate = endDate;
+        this.fppNumber = fppNumber;
+        this.mppNumber = mppNumber;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.entryType = entryType;
         this.students = students;
         this.blocks = blocks;
         this.schedule = schedule;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEntryName() {
@@ -66,36 +74,36 @@ public class Entry {
         this.entryName = entryName;
     }
 
-    public int getFPPNum() {
-        return FPPNum;
+    public String getFppNumber() {
+        return fppNumber;
     }
 
-    public void setFPPNum(int FPPNum) {
-        this.FPPNum = FPPNum;
+    public void setFppNumber(String fppNumber) {
+        this.fppNumber = fppNumber;
     }
 
-    public int getMPPNum() {
-        return MPPNum;
+    public String getMppNumber() {
+        return mppNumber;
     }
 
-    public void setMPPNum(int MPPNum) {
-        this.MPPNum = MPPNum;
+    public void setMppNumber(String mppNumber) {
+        this.mppNumber = mppNumber;
     }
 
     public LocalDate getStartDate() {
-        return StartDate;
+        return startDate;
     }
 
     public void setStartDate(LocalDate startDate) {
-        StartDate = startDate;
+        this.startDate = startDate;
     }
 
     public LocalDate getEndDate() {
-        return EndDate;
+        return endDate;
     }
 
     public void setEndDate(LocalDate endDate) {
-        EndDate = endDate;
+        this.endDate = endDate;
     }
 
     public EntryType getEntryType() {
@@ -130,11 +138,19 @@ public class Entry {
         this.schedule = schedule;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public String toString() {
+        return "Entry{" +
+                "id=" + id +
+                ", entryName='" + entryName + '\'' +
+                ", fppNumber='" + fppNumber + '\'' +
+                ", mppNumber='" + mppNumber + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", entryType=" + entryType +
+                ", students=" + students +
+                ", blocks=" + blocks +
+                ", schedule=" + schedule +
+                '}';
     }
 }

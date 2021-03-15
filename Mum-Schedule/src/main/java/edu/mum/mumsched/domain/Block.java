@@ -1,5 +1,6 @@
 package edu.mum.mumsched.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -23,12 +24,13 @@ public class Block {
     private long id;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "entryid", nullable = false)
+    @JsonIgnore
     private Entry entry;
     @NotEmpty
     private String blockName;
     private String entryName;
-    private int FPPNum;
-    private int MPPNum;
+    private int fppNumber;
+    private int mppNumber;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -43,12 +45,13 @@ public class Block {
     public Block() {
     }
 
-    public Block(Entry entry, @NotEmpty String blockName, String entryName, int FPPNum, int MPPNum, LocalDate startDate, LocalDate endDate, List<Section> sections, Schedule schedule) {
+    public Block(long id, Entry entry, @NotEmpty String blockName, String entryName, int fppNumber, int mppNumber, LocalDate startDate, LocalDate endDate, List<Section> sections, Schedule schedule) {
+        this.id = id;
         this.entry = entry;
         this.blockName = blockName;
         this.entryName = entryName;
-        this.FPPNum = FPPNum;
-        this.MPPNum = MPPNum;
+        this.fppNumber = fppNumber;
+        this.mppNumber = mppNumber;
         this.startDate = startDate;
         this.endDate = endDate;
         this.sections = sections;
@@ -87,20 +90,20 @@ public class Block {
         this.entryName = entryName;
     }
 
-    public int getFPPNum() {
-        return FPPNum;
+    public int getFppNumber() {
+        return fppNumber;
     }
 
-    public void setFPPNum(int FPPNum) {
-        this.FPPNum = FPPNum;
+    public void setFppNumber(int fppNumber) {
+        this.fppNumber = fppNumber;
     }
 
-    public int getMPPNum() {
-        return MPPNum;
+    public int getMppNumber() {
+        return mppNumber;
     }
 
-    public void setMPPNum(int MPPNum) {
-        this.MPPNum = MPPNum;
+    public void setMppNumber(int mppNumber) {
+        this.mppNumber = mppNumber;
     }
 
     public LocalDate getStartDate() {
@@ -134,4 +137,5 @@ public class Block {
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
     }
+
 }

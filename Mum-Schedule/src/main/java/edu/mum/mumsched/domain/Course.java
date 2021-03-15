@@ -16,7 +16,11 @@ public class Course {
     @Digits(integer=10, fraction=0, message = "{invalidNumber.message}")
     private int maxStudent;
 
-    @ManyToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH
+            })
     //@OneToMany(fetch = FetchType.LAZY)
     private List<Course> prerequisites = new ArrayList<>();
     @OneToMany(mappedBy="course")

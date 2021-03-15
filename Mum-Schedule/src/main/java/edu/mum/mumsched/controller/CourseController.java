@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class CourseController {
@@ -71,15 +73,16 @@ public ModelAndView getCourses(){
             throws ServletException, IOException {
 
         //update course using Ajax
-        System.out.println("courseupdating"+course);
-       Course old_course= courseService.getCourseByID(course.getId());
-       old_course.setCourseCode(course.getCourseCode());
-       old_course.setCourseName(course.getCourseName());
-       old_course.setPrerequisites(course.getPrerequisites());
-       Course updated_course=old_course;
-       courseService.save(updated_course);
+        System.out.println("courseupdating"+course+"preqreq:"+course.getPrerequisites().get(0));
+        Course course1=courseService.getCourseByName(course.getCourseName());
+
+        course1.setCourseName(course.getCourseName());
+        course1.setCourseCode(course.getCourseCode());
+        course1.setPrerequisites(course.getPrerequisites());
+        System.out.println("courseupdating2"+course1+"preqreq2:"+course1.getPrerequisites().get(0));
+       courseService.save(course1);
        System.out.println("coursefrom database"+ courseService.getCourseByID(course.getId()));
-        return updated_course;
+        return course1;
 
     }
 

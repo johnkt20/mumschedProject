@@ -1,131 +1,104 @@
 window.onload = function () {
     //document.querySelector('form').addEventListener('submit', addProduct);
-    let btnadd= document.getElementById("createcourse_btn");
+    let btnadd= document.getElementById("createentry_btn");
     //let btndelet=document.getElementById(" deletebtn");
 
     // for deleting course
     let elements;
 
 
-   // btndelet.onclick=delteCourse;
-      btnadd.onclick=addCourse;
+    // btndelet.onclick=delteCourse;
+    btnadd.onclick=addEntry;
 
 }
 
-function addCourse(e) {
-alert("corseAdding");
+function addEntry(e) {
+    alert("EntryAdding");
+   let entry_type;
+    let entry_name = document.getElementById('entry_type').value;
+    let fpp_number = document.getElementById("fpp_number").value;
+    let mpp_number=document.getElementById("mpp_number").value;
+    let start_date=document.getElementById("start_date").value;
+    let end_date=document.getElementById("end_date").value;
 
-    let courseCode = document.getElementById('course_codee').value;
-    let courseName = document.getElementById('course_namee').value;
-    let courseLevel=document.getElementById("course_level").value;
-    let courseCredit=document.getElementById("course_credit").value;
-    let maxStudents=document.getElementById("course_max_students").value;
-    let prereq= document.getElementById("course_prereq").value;
+        entry_type=entry_name;
 
-    let course;
-    let preq_course;
-    if(prereq==0){
-        alert("prereqnUll"+prereq);
+   let date1= new Date(start_date);
+   let date2= new Date( end_date);
+       let entry=  {entryName: entry_name, fppNumber: fpp_number ,mppNumber:mpp_number,entryType:entry_type,startDate:formatDate(date1),
+            endDate:formatDate(date2)};
 
-       course={courseCode: courseCode, courseName: courseName,level:courseLevel,credit:courseCredit,
-           maxStudent:maxStudents,prerequisites:null};
-    }
-    else{
+    alert("entry_name:"+entry_name+"entry_startdate:"+formatDate(date1)+"entry_enddate"+formatDate(date2)+"fpp"+fpp_number+"mpp"+mpp_number);
 
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
 
-        alert("prereqnotnUll"+prereq);
-        let search_table = document.getElementById("course_table");
-        let preq_coursName=prereq;
-        let row_index;
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
 
-        for(let i=0;i<search_table.rows.length;i++){
-            if(search_table.rows[i].cells[2].innerHTML==preq_coursName){
-                row_index=i;
-            }
-        }
-
-        alert("rowindex:"+row_index);
-           let preq_course_id=search_table.rows[row_index].cells[0].innerHTML;
-            let preq_course_code = search_table.rows[row_index].cells[1].innerHTML;
-            let preq_course_name=search_table.rows[row_index].cells[2].innerHTML;
-            let preq_course_level=search_table.rows[row_index].cells[3].innerHTML;
-            let preq_course_credit=search_table.rows[row_index].cells[4].innerHTML;
-            let preq_course_maxStudents=search_table.rows[row_index].cells[5].innerHTML;
-            preq_course={id:preq_course_id,courseCode:preq_course_code,courseName:preq_course_name,level:preq_course_level,
-                credit:preq_course_credit,maxStudents:preq_course_maxStudents}
-
-
-
-
-        let prereq_course_arry=[preq_course];
-        course=  {courseCode: courseCode, courseName: courseName,level:courseLevel,credit:courseCredit,
-            maxStudent:maxStudents,prerequisites:prereq_course_arry};
+        return [year, month, day].join('-');
     }
 
 
 
-
-    alert("course:"+course);
-    fetch('addcourse', {
+    fetch('addentry', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(course),
+        body: JSON.stringify(entry),
     })
         .then(response => response.json())
-        .then(data => addingcourse(data))
+        .then(data => addingentry(data))
         .catch((error) => {
             console.error('Error:', error);
         });
 
     //e.target.reset();
-    e.preventDefault();
+   // e.preventDefault();
 }
 
-function addingcourse(data) {
-    alert("courseAddinggg...."+data.id+""+data.courseName);
-    let prereq;
-    if(data.prerequisites==null){
-        prereq="-";
-    }
-    else{
-        prereq=data.prerequisites[0].courseName;
-    }
+function addingentry(data) {
+    alert("courseAddinggg...."+data.entryName+""+data.FPPNum);
 
-    let course = {Id: data.id, courseCode: data.courseCode, courseName: data.courseName,level:data.level,credit:data.credit,maxStudent:data.maxStudent,prerequisites: prereq};
+    let entry = {entryName: data.entryName, fppNumber: data.fppNumber, mppNumber: data.mppNumber,startDate:data.startDate,endDate:data.endDate};
 
     let tr = document.createElement('tr');
-    tr.id="row"+data.id;
+    tr.id="row"+data.entryName;
     let btn1 = document.getElementsByClassName("clone_button").item(0);
     let btn11=btn1.cloneNode(true);
 
-        btn11.id=data.id;
-        btn11.value="Edit";
-        btn11.className="editcourse";
-        btn11.addEventListener("click",function(event){editForm(this)});
+    btn11.id=data.entryName;
+    btn11.value="Edit";
+    btn11.className="editentry";
+    btn11.addEventListener("click",function(event){editForm(this)});
 
     let btn2 = document.getElementsByClassName("clone_button").item(0);
     let bt22=btn2.cloneNode(true);
-       //bt22.style.visibility="visible"
-       bt22.id=data.id+1;
-       bt22.className="deletecourse";
-       bt22.addEventListener("click",function(event){delete_course_in_row(this)});
-       bt22.value="Delete";
+    //bt22.style.visibility="visible"
+    bt22.id=data.id+1;
+    bt22.className="deleteentry";
+    bt22.addEventListener("click",function(event){delete_entry_in_row(this)});
+    bt22.value="Delete";
     //btn2.id=""+data.id;
-   // btn2.innerHTML = "Delete";
-   // btn2.className = "deletecourse";
+    // btn2.innerHTML = "Delete";
+    // btn2.className = "deletecourse";
 
 
 
-   let td1 = document.createElement('td');
+    let td1 = document.createElement('td');
     let td2 = document.createElement('td');
-    for (let key in course) {
+    for (let key in entry) {
 
         let td = document.createElement('td');
 
 
-        td.innerText = course[key];
+        td.innerText = entry[key];
 
         tr.append(td);
 
@@ -135,13 +108,13 @@ function addingcourse(data) {
     td2.appendChild(bt22);
     tr.append(td1);
     tr.append(td2);
-    document.querySelector("#course_table").append(tr);
+    document.querySelector("#entry_table").append(tr);
 
 
 }
 
-var deleteCourseId;
-function delete_course_in_row(e){
+var deleteEntry_name;
+function delete_entry_in_row(e){
     // e.stopImmediatePropagation();
     /*
     var ii = e.parentNode.parentNode.rowIndex;
@@ -153,42 +126,42 @@ function delete_course_in_row(e){
     */
 
     var kk = e.parentNode.parentNode.rowIndex;
-    deleteCourseId= document.getElementById("course_table").rows[kk].cells[0].innerHTML;
+    deleteEntry_name= document.getElementById("entry_table").rows[kk].cells[0].innerHTML;
     //deletefrom front
-    document.getElementById("course_table").deleteRow(kk);
-    alert("courseId"+deleteCourseId);
+    document.getElementById("entry_table").deleteRow(kk);
+    alert("courseId"+deleteEntry_name);
 
     //e.preventDefault();
-    delteCourse(deleteCourseId);
+    delteEntry(deleteEntry_name);
 
 
 }
 
 
-function delteCourse(courseIdd){
+function delteEntry(deleteEntry_name){
     console.log("deletebuttonclicked");
     //let id=document.getElementById("courseId").value;
-    let id=courseIdd;
-    let courseid = {id:id,courseCode: null, courseName: null};
+    let entry_name=deleteEntry_name;
+    let entry_namee = {entryName:entry_name,entryNumber: null, mppNumber: null};
 //dfd
-    fetch('deleteCourse', {
+    fetch('deleteentry', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify( courseid ),
+        body: JSON.stringify( entry_namee),
     })
         .then(response => response.json())
-        .then(data => courseDeleting(data))
+        .then(data => entryDeleting(data))
         .catch((error) => {
             console.error('Error:', error);
         });
     //e.target.reset();
-   // e.preventDefault();
+    // e.preventDefault();
 }
 
 
-function courseDeleting(data){
+function entryDeleting(data){
     alert("course deleteing..");
 }
 
