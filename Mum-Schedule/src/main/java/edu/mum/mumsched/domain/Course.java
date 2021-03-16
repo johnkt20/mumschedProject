@@ -112,12 +112,5 @@ public class Course {
         this.credit = credit;
     }
 
-    @Override
-    public String toString() {
-        return "Course{" +
-                "Id=" + Id +
-                ", courseName='" + courseName + '\'' +
-                ", courseCode='" + courseCode + '\'' +
-                '}';
-    }
+
 }

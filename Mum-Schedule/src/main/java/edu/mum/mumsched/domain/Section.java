@@ -1,5 +1,6 @@
 package edu.mum.mumsched.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -21,7 +22,7 @@ public class Section {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
     private String classRoom;
-    private Integer capacity;
+    private String capacity;
     //    private Integer
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "section")
     private List<Grade> grades = new ArrayList<>();
@@ -35,7 +36,8 @@ public class Section {
     public Section() {
     }
 
-    public Section(@NotEmpty String sectionName, LocalDate startDate, LocalDate endDate, String classRoom, Integer capacity, List<Grade> grades, Course course, Block block) {
+    public Section(Long id, @NotEmpty String sectionName, LocalDate startDate, LocalDate endDate, String classRoom, String capacity, List<Grade> grades, Course course, Block block) {
+        this.id = id;
         this.sectionName = sectionName;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -78,11 +80,19 @@ public class Section {
         this.classRoom = classRoom;
     }
 
-    public Integer getCapacity() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(Integer capacity) {
+    public void setCapacity(String capacity) {
         this.capacity = capacity;
     }
 
@@ -109,4 +119,6 @@ public class Section {
     public void setBlock(Block block) {
         this.block = block;
     }
+
+
 }

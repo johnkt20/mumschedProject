@@ -1,0 +1,191 @@
+
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="ISO-8859-1">
+    <link href="/section.css" type="text/css" rel="stylesheet" />
+    <title>CourseList</title>
+</head>
+<body>
+<div>
+    <h2>Section Managment System</h2>
+</div>
+<table id="section_table">
+    <thead>
+    <tr>
+        <th>Section Name</th>
+        <th>Room</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Capacity</th>
+        <th>Course</th>
+        <th>Block</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="Section : ${allsections}">
+        <td th:text="${Section.sectionName}"></td>
+        <td th:text="${Section.classRoom}"></td>
+        <td th:text="${Section.startDate}"></td>
+        <td th:text="${Section.endDate}"></td>
+        <td th:text="${Section.capacity}"></td>
+        <td th:text="${Section.course.courseName}"></td>
+        <td th:text="${Section.block.blockName}"></td>
+        <td><button class="editsection" onclick="editForm(this)" >Edit</button></td>
+        <td><button id=${section.id} class="deletesection" onclick="delete_section_in_row(this)"> Delete</button></td>
+
+    </tr>
+    </tbody>
+</table>
+
+<hr>
+<div>
+    <form action="/adminpanel">
+        <input id="backbtn" class="clone_button" type="submit" value="Back"/>
+    </form>
+</div>
+
+<!--popup window-->
+
+<button class="open-button" onclick="openForm()">CreateBlock</button>
+
+<div class="form-popup" id="myForm">
+    <form action="/action_page.php" class="form-container">
+
+
+
+
+        <label for="psw"><b>Section name</b></label>
+        <input id="section_name" class="sectiondata" placeholder="Enter Section" name="psw" required><br/>
+
+        <label for="psw"><b>ClassRomm name</b></label>
+        <input id="classRoom_name" class="sectiondata" placeholder="enter mpp" name="psw" required><br/>
+
+        <label for="psw"><b>Start date</b></label>
+        <input type="date" id="start_date" class="sectiondata" placeholder="Enter start date" name="psw" required><br/>
+
+        <label for="psw"><b>End dates</b></label>
+        <input type="date" id="end_date"  class="sectiondata" placeholder="Enter end date" name="psw" required><br/>
+
+        <label for="psw"><b>capacity</b></label>
+        <input type="text" id="capacity"  class="sectiondata" placeholder="Enter capacity" name="psw" required><br/>
+
+        <label for="psw"><b>Class Name</b></label>
+
+        <select  class="couresdata"  id="course_name" >
+            <option value="0">select entry</option>
+            <option th:each="Course : ${allcourses}" th:value="${Course.courseName}" th:text="${Course.courseName}" ></option>
+
+        </select><br/>
+
+        <label for="psw"><b>Blcok Name</b></label>
+        <select  class="couresdata"  id="block_name" >
+            <option value="0">select entry</option>
+            <option th:each="Block : ${allblocks}" th:value="${Block.blockName}" th:text="${Block.blockName}" ></option>
+
+        </select><br/>
+
+        <button id="createsection_btn" type="button" class="btn" >create</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    </form>
+</div>
+
+
+
+<!--pop edit window-->
+
+<div class="form-popupe" id="myForme">
+    <form action="/action_page.php" class="form-containere">
+
+        <label for="email"><b>Fpp Number</b></label>
+        <input id="section_namee" type="text" placeholder="EnterFppNamee" name="emaile" required> <br/>
+
+        <label for="psw"><b>Mpp number</b></label>
+        <input id="classRoom_namee"  placeholder="Enter mpp number" name="pswe" required><br/>
+
+        <button id="update_section_btn" type="button" class="btne" onclick="updateSection(this)"> update</button>
+        <button type="button" class="btn cancele" onclick="editFormcancel()">Close</button>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+<script>
+
+    var row_index;
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+        document.getElementById("section_namee").value="";
+        document.getElementById("classRoom_namee").value="";
+    }
+
+    function editForm(e){
+        alert("edit button workingg..");
+        row_index=e.parentNode.parentNode.rowIndex;
+        document.getElementById("myForme").style.display="block";
+        var section_index=e.parentNode.parentNode.rowIndex;
+
+        let section_name=document.getElementById("section_table").rows[entry_index].cells[0].innerHTML;
+        let classRoom_name=document.getElementById("section_table").rows[entry_index].cells[1].innerHTML;
+        document.getElementById("section_namee").value=section_name;
+        document.getElementById("classRoom_namee").value=classRoom_name;
+
+    }
+    function editFormcancel(){
+        document.getElementById("myForme").style.display="none";
+    }
+
+    function updateSection(e){
+
+        let section_name= document.getElementById("section_namee").value;
+        let classRoom_name= document.getElementById("classRoom_namee").value;
+
+        document.getElementById("section_table").rows[row_index].cells[0].innerHTML=section_name;
+        document.getElementById("section_table").rows[row_index].cells[1].innerHTML=classRoom_name;
+
+
+
+        let section_obj= {sectionName:section_name,classRoom:classRoom_name}
+        alert("sectionname"+section_name+"classRoomName"+classRoom_name);
+        fetch('updatesection', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify( section_obj ),
+        })
+            .then(response => response.json())
+            .then(data => sectionupdating(data))
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+    }
+
+    function sectionupdating(data){
+
+        alert("entry updated successfully");
+
+    }
+
+
+
+</script>
+
+
+<!-- hidden button-->
+
+
+<script src="/section.js"></script>
+</body>
+</html>
