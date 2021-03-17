@@ -26,7 +26,7 @@ public class Schedule {
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "schedule")
     private List<Block> blockList = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.REMOVE)//(mappedBy = "schedule")
+    @OneToOne(fetch=FetchType.LAZY,  cascade = CascadeType.REMOVE)//(mappedBy = "schedule")
     private Entry entry;
 
     public void addBlock(Block block){

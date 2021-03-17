@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="ISO-8859-1">
+    <link href="/mumsched.css" type="text/css" rel="stylesheet" />
+    <title>CourseList</title>
+</head>
+<body>
+<div>
+    <h2>Mum Schedule</h2>
+</div>
+<table id="course_table">
+    <thead>
+    <tr>
+          <th>EntryName</th>
+        <th>courseCode</th>
+        <th>CourseName</th>
+        <th>StartDate</th>
+        <th>Faculty</th>
+
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="Section : ${allsections}">
+       <td th:text="${Section.block.entryName}" class="secnum1"></td>
+        <td th:text="${Section.course.courseCode}"class="secnum2"></td>
+        <td th:text="${Section.course.courseName}"class="secnum3"></td>
+        <td th:text="${Section.startDate}" class="secnum4"></td>
+    </tr>
+    </tbody>
+</table>
+
+<hr>
+<div>
+    <form action="/getmainpage">
+        <input id="backbtn" class="clone_button" type="submit" value="Back"/>
+    </form>
+</div>
+
+
+
+
+<!-- hidden button-->
+
+
+<script src="/mumsched.js"></script>
+</body>
+</html>

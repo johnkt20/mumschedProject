@@ -15,4 +15,13 @@ public class AdminCountroller {
         mv.setViewName("AdminPanel.html");
         return mv;
     }
+
+    @RequestMapping(value = "/getmainpage", method = RequestMethod.GET)
+    public ModelAndView showMainPanel() {
+
+        ModelAndView mv= new ModelAndView();
+        mv.setViewName("mainpage");
+        return mv;
+    }
+
 }

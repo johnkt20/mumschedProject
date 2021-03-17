@@ -1,0 +1,173 @@
+
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="ISO-8859-1">
+    <link href="/faculty.css" type="text/css" rel="stylesheet" />
+    <title>FacultyList</title>
+</head>
+<body>
+
+
+<table id="faculty_table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>firstName</th>
+        <th>LastName</th>
+        <th>email</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="Faculty : ${faculties}">
+        <td th:text="${Faculty.id}"class="secnum11"></td>
+        <td th:text="${Faculty.firstName}"class="secnum22"></td>
+        <td th:text="${Faculty.lastName}"class="secnum33"></td>
+        <td th:text="${Faculty.email}"class="secnum33"></td>
+        <td><button class="editfaculty_111" onclick="editFaculty(this)" >Edit</button></td>
+        <td><button id=${faculty.id} class="deletefaculty" onclick="delete_faculty_in_row(this)"> Delete</button></td>
+
+    </tr>
+    </tbody>
+</table>
+
+<hr>
+<div>
+    <form action="/adminpanel">
+        <input class="clone_btn" type="submit" value="Back"/>
+    </form>
+</div>
+
+<!--popup window-->
+
+<button class="open-button" onclick="openForm()">CreateFaculty</button>
+
+<div class="form-popup" id="myForm">
+    <form action="/action_page.php" class="form-container">
+        <h1>Create Student</h1>
+
+        <label for="email"><b>first Name</b></label>
+        <input id="first_namee" type="text" placeholder="EnterfirstName" name="email" required>
+
+        <label for="psw"><b>last Name</b></label>
+        <input id="last_namee"  placeholder="Enter lastName" name="psw" required>
+
+        <label for="psw"><b>Email</b></label>
+        <input id="emaile"  placeholder="Enter email" name="psw" required>
+
+        <button id="createfaculty_btn" type="button" class="btn" >AddFaculty</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    </form>
+</div>
+
+
+
+<!--pop edit window-->
+
+<div class="form-popupe" id="myForme">
+    <form action="/action_page.php" class="form-containere">
+
+
+        <label for="email"><b>faculty id</b></label>
+        <input id="faculty_ide" type="text" placeholder="course id" name="emaile" required readonly> <br/>
+
+        <label for="email"><b>first Name</b></label>
+        <input id="first_nameee" type="text" placeholder="EnterCourseNamee" name="emaile" required>
+
+        <label for="psw"><b>lastName</b></label>
+        <input id="last_nameee"  placeholder="Enter CourseCodeee" name="pswe" required>
+
+        <button id="update_faculty_btn" type="button" class="btne" onclick="updateFaculty(this)">update</button>
+        <button type="button" class="btn cancele" onclick="editFormcancel()">Close</button>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+<script>
+
+    var row_index;
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+        document.getElementById("first_namee").value="";
+        document.getElementById("last_namee").value="";
+    }
+
+    function editFaculty(e){
+
+        alert("edit button workingg..");
+        row_index=e.parentNode.parentNode.rowIndex;
+        document.getElementById("myForme").style.display="block";
+        let faculty_id=document.getElementById("faculty_table").rows[row_index].cells[0].innerHTML;
+        let first_name=document.getElementById("faculty_table").rows[row_index].cells[1].innerHTML;
+        let last_name=document.getElementById("faculty_table").rows[row_index].cells[2].innerHTML;
+        alert("id"+ faculty_id+"name"+first_name+"lastName"+last_name);
+        document.getElementById("faculty_ide").value=faculty_id;
+        document.getElementById("first_nameee").value=first_name;
+        document.getElementById("last_nameee").value=last_name;
+
+
+    }
+    function editFormcancel(){
+        document.getElementById("myForme").style.display="none";
+    }
+
+    function updateFaculty(e){
+        let faculty_id=document.getElementById("student_ide").value;
+        let faculty_firstName= document.getElementById("first_nameee").value;
+        let faculty_lastName= document.getElementById("last_nameee").value;
+
+        alert("index"+row_index);
+        document.getElementById("faculty_table").rows[row_index].cells[0].innerHTML=faculty_id;
+        document.getElementById("faculty_table").rows[row_index].cells[1].innerHTML=faculty_firstName;
+        document.getElementById("faculty_table").rows[row_index].cells[2].innerHTML=faculty_lastName;
+
+
+        let faculty_obj= {id:faculty_id,firstName:faculty_firstName,lastName:faculty_lastName}
+        alert("updatefaculty"+faculty_obj);
+        fetch('updatefaculty', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify( faculty_obj ),
+        })
+            .then(response => response.json())
+            .then(data => facultyupdating(data))
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+    }
+
+    function facultyupdating(data){
+
+        alert("course updated successfully");
+
+    }
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+<script src="/faculty.js"></script>
+</body>
+</html>

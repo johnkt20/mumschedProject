@@ -1,0 +1,171 @@
+
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="ISO-8859-1">
+    <link href="/schedule.css" type="text/css" rel="stylesheet" />
+    <title>CourseList</title>
+</head>
+<body>
+<div>
+    <h2>Schedule Managment System</h2>
+</div>
+<table id="sche_table">
+    <thead>
+    <tr>
+        <th>Schedule Id</th>
+        <th>Entry Name</th>
+        <th>Status</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="Schedule : ${allschedules}">
+        <td th:text="${Schedule.id}"></td>
+        <td th:text="${Schedule.entry.entryName}"></td>
+        <td th:text="${Schedule.scheduleStatus}">< /td>
+        <td><button class="editsche" onclick="editForm(this)" >Edit</button></td>
+        <td><button id=${sche.id} class="deletesche" onclick="delete_sche_in_row(this)"> Delete</button></td>
+        <td><button id=generate_sche class="deletesche" onclick="generate_sche(this)"> Generate Schedule</button></td>
+
+    </tr>
+    </tbody>
+</table>
+
+<hr>
+<div>
+    <form action="/adminpanel">
+        <input id="backbtn" class="clone_button" type="submit" value="Back"/>
+    </form>
+</div>
+
+<!--popup window-->
+
+<button class="open-button" onclick="openForm()">Createsche</button>
+
+<div class="form-popup" id="myForm">
+    <form action="/action_page.php" class="form-container">
+
+        <select  class="couresdata"  id="entry_name" >
+            <option value="0">select entry</option>
+            <option th:each="Entry : ${allentries}" th:value="${Entry.entryName}" th:text="${Entry.entryName}" ></option>
+
+        </select><br/>
+
+        <label for="psw"><b>Status</b></label>
+        <select  class="entrydata"  id="sche_status" >
+            <option value="0">select status </option>
+            <option value="DRAFT" >DRAFT</option>
+            <option value="REVIEWED"  >REVIEWED</option>
+            <option value="APPROVED"  >APPROVED</option>
+        </select><br/>
+
+        <button id="createsche_btn" type="button" class="btn" >create</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    </form>
+</div>
+
+
+
+<!--pop edit window-->
+
+<div class="form-popupe" id="myForme">
+    <form action="/action_page.php" class="form-containere">
+
+        <label for="email"><b>Fpp Number</b></label>
+        <input id="sche_ide" type="text" placeholder="EnterFppNamee" name="emaile" required> <br/>
+
+        <label for="psw"><b>Status</b></label>
+        <select  class="schedata"  id="sche_statuse" >
+            <option value="0">select status </option>
+            <option value="DRAFT" >DRAFT</option>
+            <option value="REVIEWED"  >REVIEWED</option>
+            <option value="APPROVED"  >APPROVED</option>
+        </select><br/>
+        <button id="update_sche_btn" type="button" class="btne" onclick="updateSche(this)"> update</button>
+        <button type="button" class="btn cancele" onclick="editFormcancel()">Close</button>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+<script>
+
+    var row_index;
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+        document.getElementById("fpp_numbere").value="";
+        document.getElementById("mpp_numbere").value="";
+    }
+
+    function editForm(e){
+        alert("edit button workingg..");
+        row_index=e.parentNode.parentNode.rowIndex;
+        document.getElementById("myForme").style.display="block";
+        var sche_index=e.parentNode.parentNode.rowIndex;
+
+        let sche_id=document.getElementById("sche_table").rows[sche_index].cells[0].innerHTML;
+        let sche_status=document.getElementById("sche_table").rows[sche_index].cells[2].innerHTML;
+        document.getElementById("sche_ide").value=sche_id;
+        document.getElementById("sche_statuse").value=sche_status;
+
+    }
+    function editFormcancel(){
+        document.getElementById("myForme").style.display="none";
+    }
+
+    function updateSche(e){
+
+        let sche_id= document.getElementById("sche_ide").value;
+        let sche_status= document.getElementById("sche_statuse").value;
+
+
+        document.getElementById("sche_table").rows[row_index].cells[2].innerHTML=sche_status;
+
+        let sche_idd=document.getElementById("sche_table").rows[row_index].cells[0].innerHTML
+        let sche_statuss=document.getElementById("sche_table").rows[row_index].cells[2].innerHTML
+
+        let sche_obj= {id:sche_idd,scheduleStatus:sche_statuss}
+        alert("scheid"+sche_idd+"sche_status"+sche_statuss);
+        fetch('updateschedule', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify( sche_obj ),
+        })
+            .then(response => response.json())
+            .then(data => scheupdating(data))
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+    }
+
+    function scheupdating(data){
+
+        alert("sche updated successfully");
+
+    }
+
+
+
+</script>
+
+
+<!-- hidden button-->
+
+
+<script src="/schedule.js"></script>
+</body>
+</html>
